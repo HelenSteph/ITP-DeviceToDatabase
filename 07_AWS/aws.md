@@ -1,6 +1,48 @@
 # AWS IoT
 
-Use AWS to collect and store data from Arduino.
+We will be using AWS to collect and store data from the Arduino. Temporary AWS accounts will be provided. You can use your own AWS account if you prefer. Some of the services will incur usage charges.
+
+## Login
+
+Log into the AWS Management Console using the link and credentials that were provided for you.
+
+![Screenshot of AWS Login](img/aws-login.png)
+
+Choose the US East (N. Virginia) region using the dropdown on the top right of the screen.
+
+![Screenshot of AWS Region Selection](img/aws-region.png)
+
+## Cloud Formation
+
+We are going to use an AWS Cloud Formation stack to pre-create some infrastructure for us.
+
+From the top left of the screen, click the services menu and type `CloudFormation` into the search box.
+
+![AWS Services - Search for Cloud Formation](img/aws-services-menu-cloudformation.png)
+
+In the CloudFormation console, press the orange `Create Stack` button on the right hand side. 
+
+![Cloud Formation Dashboard](img/aws-cloudformation.png)
+
+Under `Specify Template` choose `Upload a template file` as the template source. Choose `cloud-formation.yml` from the code you downloaded in <<chapter-setup>>. 
+
+![Cloud Formation - Create Stack](img/aws-cloudformation-create-stack.png)
+
+. Press the `Next button`.
+. Enter `itp` as the stack name and click `next`.
+. Skip the configure stack options, just click `next`. 
+. On the review page,make sure you check the `I acknowledge ...` box at the bottom of the page and click `Create Stack` button. 
+
+![Cloud Formation - Create Stack Complete](img/aws-stack-complete.png)
+
+Once the template finishes running you will have a bunch of new AWS resources that we will use in during class.
+
+ * Core IoT Policies
+ * DynamoDB Table
+ * PostgreSQL Database
+ * Lambda Functions
+ * IAM Roles and Policies
+
 
 ## IAM User
 
