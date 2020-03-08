@@ -370,9 +370,9 @@ Resources:
       Environment: 
         Variables:                      
           INFLUXDB_HOSTNAME:            "influx.itpdtd.com"
-          INFLUXDB_USER:                "username"
-          INFLUXDB_PASSWORD:            "password"
-          INFLUXDB_DATABASE:            "username"
+          INFLUXDB_USER:                "samantha"
+          INFLUXDB_PASSWORD:            "secret"
+          INFLUXDB_DATABASE:            "samantha"
 
   PostgresLambdaFunction:
     Type:                               "AWS::Lambda::Function"
