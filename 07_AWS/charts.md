@@ -7,7 +7,7 @@ Use Grafana to visualize your sensor data. Log into your local Grafana server or
 
 # Glitch & Chart.js
 
-Grafana doesn't natively support DynamoDB. However you can modify the Glitch application from earlier in the semester to visualize data from Dynamo. Open https://glitch.com/edit/#!/itp-arduino-workshop. Use the menu on the top left to "Remix Project" which makes a copy. In your copy of the project open the `.env` file.
+Grafana doesn't natively support DynamoDB. However you can modify the Glitch application from earlier in the semester to visualize data from Dynamo. Open https://glitch.com/edit/#!/itp-arduino-workshop. Use the button on the top right to "Remix to Edit" which makes a copy of the project. In your copy of the project open the `.env` file.
 
 Add a username and password for that is used to access the website
 
@@ -16,30 +16,13 @@ Add a username and password for that is used to access the website
 	
 Enter your AWS information.
 
+	THING_POLICY="ThingPolicy"
 	AWS_REGION="us-east-1"
 	AWS_ACCESS_KEY_ID="AKIAIOSFODNN7EXAMPLE"
 	AWS_SECRET_ACCESS_KEY="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
 
-Our Dynamo table is different than the original version, so we also need to edit `server.js`. The code expects a column name `deviceId` in the environment table. Our column is named `device`. Edit lines 115 to 121 to fix this.
+In order to get the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY, open AWS IAM and navigate to your user. On the Security Credientials tab, create a new Access Key.
 
-Original code
-
-	params.KeyConditionExpression = "#deviceId = :device_id";
-	params.ExpressionAttributeNames = {
-	  "#deviceId": "deviceId"
-	};
-	params.ExpressionAttributeValues = {
-	  ":device_id": id
-	};
-
-Suggested Modification
-
-	params.KeyConditionExpression = "#device = :device";
-	params.ExpressionAttributeNames = {
-	  "#device": "device"
-	};
-	params.ExpressionAttributeValues = {
-	  ":device": id
-	};
+Once the properties are set, choose "Show -> In a New Window" from the menu at the top.
 
 ![](img/glitch-ui.png)
