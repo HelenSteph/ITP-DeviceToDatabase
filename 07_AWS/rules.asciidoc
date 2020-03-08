@@ -37,7 +37,8 @@ Press the `Add Action` button. Add an action to split the message into multiple 
 .Rule action - split into multiple columns of DynamoDB table
 image::img/rule-action-split-dynamo-v2.png[]
 
-Choose the `environment` table, which was created by CloudFormation. Select the `iot-core-execution-role`. This role was created by CloudFormation. It includes permissions to write to DynamoDB and the Kinesis stream.
+
+Choose the `environment` table, which was created by CloudFormation. Select the `iot-core-execution-role`. This role was created by CloudFormation. It includes permissions to write to DynamoDB stream.
 
 image::img/rule-action-dynamo.png[]
 
