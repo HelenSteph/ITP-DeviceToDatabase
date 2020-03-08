@@ -11,11 +11,9 @@ We like to store the sensor data in PostgreSQL. The CloudFormation template crea
 
 ## Create users and schema
 
-Connect to your database as the `postgres` user.
+Connect to your database as the `postgres` user using `psql`. (We set the password for the postgres user in the CloudFormation template.)
 
     psql -h itp.c2mv7aahxpyd.us-east-1.rds.amazonaws.com -U postgres -P postgres-123
-
-We set the password for the postgres user in the CloudFormation template.
 
 As the postgres user, create some user accounts. The `sensors` user will own the database. The other accounts are for the lambda function and grafana.
 
