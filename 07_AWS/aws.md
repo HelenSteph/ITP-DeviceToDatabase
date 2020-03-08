@@ -51,7 +51,7 @@ In order to connect the Arduino to AWS IoT Core, our device needs to authenticat
 
 Load the [GenerateCSR.ino](https://github.com/don/ITP-DeviceToDatabase/blob/master/02_Arduino_MQTT/arduino/GenerateCSR/GenerateCSR.ino) sketch on your MRK WiFi 1010.
 
-Open the Serial Monitor and generate a CSR. Press the "Send" button or enter key to accept all the default valyes. The device name is pre-populated with the serial number from the ECCX08 chip. Refer to the [week 2 instructions](https://github.com/don/ITP-DeviceToDatabase/blob/master/02_Arduino/exercises/exercise7.md) if you need more details.
+Open the Serial Monitor and generate a CSR. Press the "Send" button or enter key to accept all the default valyes. The device name is pre-populated with the serial number from the ECCX08 chip. Refer to the [week 3 instructions](https://github.com/don/ITP-DeviceToDatabase/blob/master/02_Arduino/exercises/exercise7.md) if you need more details.
 
 ![Screenshot of Arduino sketch generating CSR](../02_Arduino/exercises/images/generate-csr.png)
 
@@ -128,7 +128,7 @@ AWS generates a custom host name for each Core IoT installation. Choose `Setting
 
 ## Connect
 
-The next task is to get the Arduio connected to AWS by configuring the [AWS.ino](../02_Arduino/arduino/AWS/AWS.ino) sketch and loading it onto your Arduino. The config.h file contains all the variables you need to edit. The broker URL is the custom MQTT endpoint from the Core IoT Settings page in the last step. The device certificate is the certificate file you downloaded from AWS. Make sure you use the certificate and not the CSR. The ArduinoBearSSL library uses the certificate from config.h and private key from the crypto chip to authenticate with the AWS server in place of a username and password. Review the [instructions from week 3](/02_Arduino/exercises/exercise8.md#awsino) if necessary.
+The next task is to get the Arduino connected to AWS by configuring the [AWS.ino](../02_Arduino/arduino/AWS/AWS.ino) sketch and loading it onto your Arduino. The config.h file contains all the variables you need to edit. The broker URL is the custom MQTT endpoint from the Core IoT Settings page in the last step. The device certificate is the certificate file you downloaded from AWS. Make sure you use the certificate and not the CSR. The ArduinoBearSSL library uses the certificate from config.h and private key from the crypto chip to authenticate with the AWS server in place of a username and password. Review the [instructions from week 3](/02_Arduino/exercises/exercise8.md#awsino) if necessary.
 
  * Open `02_Arduino/arduino/AWS/AWS.ino` in the Arudino IDE.
  * Switch to the `config.h` tab
@@ -157,40 +157,6 @@ AWS is now successfully receiving data from your device!
 Ensure that you can send data back to the Arduino. In the test tab, click `Publish to a topic`. The topic should be `things/${clientId}/led`. The payload should be a value between 0 and 100. Sending different values should adjust the brightness of the LED on your Arduino.
 
 ![Screenshot of AWS IoT MQTT test sending data to the device](img/aws-iot-test-send.png)
-
-## Rules
-
-The Lambda function inserts event data into the database. Next, we need to create a Rule that calls our Lambda function when MQTT data arrives. Use the Services menu and navigate back to IoT Core. Click the Act menu on the left side and create a rule.
-
-![](img/rule-no-rules.png)
-
-Name the rule `environment`
-
-![](img/rule-create.png)
-
-Add the *rule query statement*.
-
-    SELECT topic(2) as device, temperature, humidity FROM 'things/+/environment'
-    
-The `topic(2)` field gets the 2nd element from the MQTT topic, which in this case, is the device name. See the [AWS IoT SQL Reference](https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-reference.html) for more details.
-
-![](img/rule-query.png)
-
-Press the add action button. Select "Send a message to a Lambda function" and choose configure action.
-
-![](img/rule-send-to-lambda.png)
-
-Select the "storeSensorData" Lambda function and choose add action.
-
-![](img/rule-store-sensor-data.png)
-
-Choose create rule
-
-![](img/rule-create-success.png)
-
-Now that the rule is deployed, query the environment table again. You should see new data being inserted into the table.
-
-![](img/rule-select-real-data.png)
 
 Next [Rules](rules.asciidoc) 
 
