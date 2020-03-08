@@ -120,6 +120,13 @@ This new policy ensures that when a device connects, the client id of the device
         ]
     }
 
+## MQTT Endpoint
+
+AWS generates a custom host name for each Core IoT installation. Choose `Settings` from the bottom of the main AWS IoT menu to view the custom endpoint. Copy this value, you'll need it in the next step to connect your Arduino to AWS.
+
+![Screenshot of AWS Core IoT custom endpoint](img/aws-iot-custom-endpoint.png)
+
+
 ## AWS.ino
 
 Use the `aws` command line tool to get the AWS IoT MQTT broker URL.
