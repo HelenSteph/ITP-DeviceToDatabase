@@ -199,5 +199,5 @@ Log into your local Grafana server. Add a connection to your RDS database. Creat
 ![](img/grafana-query.png)
 ![](img/grafana-graph.png)
 
-Next [Notifications](notifications.md) 
+Next [Rules](rules.asciidoc) 
 

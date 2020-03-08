@@ -58,3 +58,6 @@ Once the new rule is in place, the DynamoDB table will start being populated. Us
 image::img/rule-dynamo-items.png[]
 
 image::img/rule-dynamo-edit.png[]
+
+Next ./database.md[Database]
+
