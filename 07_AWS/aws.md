@@ -137,13 +137,13 @@ The next task is to get the Arduio connected to AWS by configuring the [AWS.ino]
  * Copy contents of the downloaded certificate into config.h
  * Deploy the code the Arduino `Sketch -> Upload`
 
-![Screenshot of empty config.h](../02_Arduino/images/aws-config-1.png)
+![Screenshot of empty config.h](../02_Arduino/exercises/images/aws-config-1.png)
 
-![Screenshot of config.h with new data](../02_Arduino/images/aws-config-2.png)
+![Screenshot of config.h with new data](../02_Arduino/exercises/images/aws-config-2.png)
 
 Open the Arduino Serial Monitor and verify that your device has connected to the wireless network and to AWS.
 
-![Screenshot of Arduino Serial Monitor](images/environment-sensor-output.png)
+![Screenshot of Arduino Serial Monitor](img/environment-sensor-output.png)
 
 ## Test
 
