@@ -68,4 +68,4 @@ The new log messages look better
 
 Now that the log is working, go into Firehose job and increase the buffer interval from 120 seconds to 300 or 900 seconds.  
 
-Next [DynamoDB](dynamo.md)
+Next [Charts](charts.md)

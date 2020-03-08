@@ -192,12 +192,5 @@ Now that the rule is deployed, query the environment table again. You should see
 
 ![](img/rule-select-real-data.png)
 
-## Grafana
-
-Log into your local Grafana server. Add a connection to your RDS database. Create a graph to display your sensor data.
-
-![](img/grafana-query.png)
-![](img/grafana-graph.png)
-
 Next [Rules](rules.asciidoc) 
 
