@@ -1,6 +1,6 @@
 # PostgreSQL
 
-In addition to storing the data in DynamoDB, we'd also like to store the data in PostgreSQL. The CloudFormation template created a PostgreSQL database using Amazon Relational Database Service (RDS). 
+We like to store the sensor data in PostgreSQL. The CloudFormation template created a PostgreSQL database using Amazon Relational Database Service (RDS). 
 
  * Open the RDS dashboard. Choose `Services -> RDS`.
  * Choose Databases from the left side
