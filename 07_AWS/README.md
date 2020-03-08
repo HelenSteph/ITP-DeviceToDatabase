@@ -1,5 +1,5 @@
  * [AWS Core IoT](aws.md)
- * [Rules](rules.md)
+ * [Rules](rules.asciidoc)
  * [PostgreSQL](postgresql.md)
  * [InfluxDB](influxdb.md)
  * [Notifications](notifications.md)
