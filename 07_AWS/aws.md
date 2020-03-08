@@ -43,44 +43,6 @@ Once the template finishes running you will have a bunch of new AWS resources th
  * Lambda Functions
  * IAM Roles and Policies
 
-
-## IAM User
-
-Log into the [AWS Console](http://aws.amazon.com). Open the Identity and Access Managment Service (IAM). Click on the [Users tab](https://console.aws.amazon.com/iam/home#/users) and press the *Add user* button.
-
-![Screenshot of AWS IAM dashboard](img/iam-users.png)
-
-Create a new user. I chose the name `cli` since we're using this user with the Command Line Interface (CLI). Be sure to check the *Programmatic access* option before pressing the *Next* button.
-
-![Screenshot of AWS IAM create new user](img/iam-new-user.png)
-
-Attach the *Administrative Access* policy to this user.
-
-![Screenshot of AWS IAM new user permissions](img/iam-permissions.png)
-
-Review the settings and create the user.
-
-![Screenshot of AWS IAM screen to review new user settings](img/iam-review.png)
-
-Download the credentials CSV file with the access key ID and and secret access key.
-
-![Screenshot of AWS IAM credentials download for new user](img/iam-credentials.png)
-
-
-## AWS CLI
-
-Install the AWS Command Line Interface (CLI) using [Homebrew](https://brew.sh) or refer to [Amazon's instructions](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html) for alternate installation methods.
-
-    brew install awscli
-
-Once you install the `awscli`, it needs to be configured with your Access Key ID and Secret Access Key that were downloaded in the previous step. Be sure to choose `us-east-1` as the default region. See the [Amazon documentation](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) for more details about access key ids and secrets.
-
-    $ aws configure
-    AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
-    AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-    Default region name [None]: us-east-1
-    Default output format [None]: table
-
 ## Arduino
 
 In order to connect the Arduino to AWS IoT Core, our device needs to authenticate using a private key and client certificate instead of a username and password. Use the CreateCSR.ino sketch to generate a new private key and certificate signing request (CSR) on the device. The CSR is used to generate a certificate from AWS. Finally we'll use the key and certificate to connect and send data to AWS IoT.
