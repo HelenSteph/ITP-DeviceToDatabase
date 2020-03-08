@@ -126,16 +126,24 @@ AWS generates a custom host name for each Core IoT installation. Choose `Setting
 
 ![Screenshot of AWS Core IoT custom endpoint](img/aws-iot-custom-endpoint.png)
 
+## Connect
 
-## AWS.ino
+The next task is to get the Arduio connected to AWS by configuring the [AWS.ino](../02_Arduino/arduino/AWS/AWS.ino) sketch and loading it onto your Arduino. The config.h file contains all the variables you need to edit. The broker URL is the custom MQTT endpoint from the Core IoT Settings page in the last step. The device certificate is the certificate file you downloaded from AWS. Make sure you use the certificate and not the CSR. The ArduinoBearSSL library uses the certificate from config.h and private key from the crypto chip to authenticate with the AWS server in place of a username and password. Review the [instructions from week 3](/02_Arduino/exercises/exercise8.md#awsino) if necessary.
 
-Use the `aws` command line tool to get the AWS IoT MQTT broker URL.
+ * Open `02_Arduino/arduino/AWS/AWS.ino` in the Arudino IDE.
+ * Switch to the `config.h` tab
+ * Update the wifi SSID and password
+ * Copy the broker URL from the AWS custom endpoint settings and paste it into config.h
+ * Copy contents of the downloaded certificate into config.h
+ * Deploy the code the Arduino `Sketch -> Upload`
 
-    aws iot describe-endpoint --endpoint-type "iot:Data-ATS"
+![Screenshot of empty config.h](../02_Arduino/images/aws-config-1.png)
 
-Using the MQTT broker URL and device certificate you downloaded from AWS, configure [AWS.ino](../02_Arduino_MQTT/arduino/AWS/AWS.ino) sketch and load it onto your Arduino. Make sure you use the certificate and not the CSR. Review the [instructions from week 2](/02_Arduino_MQTT/exercises/exercise7.md#awsino) if necessary.
+![Screenshot of config.h with new data](../02_Arduino/images/aws-config-2.png)
 
 Open the Arduino Serial Monitor and verify that your device has connected to the wireless network and to AWS.
+
+![Screenshot of Arduino Serial Monitor](images/environment-sensor-output.png)
 
 ## Test
 
