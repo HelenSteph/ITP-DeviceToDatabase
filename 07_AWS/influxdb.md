@@ -29,14 +29,21 @@ Now that the Lambda function works, we can have the IoT Core send data to it.
  * Select the `environment` rule. 
  * Use the `Add action` button to add a new action. 
  * Choose `Send a message to a Lambda function`.
+ * Press `Configure Action` at the bottom of the page.
  * Select `mqtt-to-influxdb`.
+ * Press `Add action`.
+
+ ![](img/rule-influxdb-lambda.png)
 
 Use the influx cli to verify that data is begin written to the database
 
-    influx -host influx.itpdtd.com -username samantha -password secret
+    influx -host influx.itpdtd.com -ssl -username samantha -password secret
     use samantha
     precision rfc3339
-    select * from /.*/ where time > now() - 60s
+    select * from /.*/ where time > now() - 10s
+
+![](img/influxdb-check-data.png)
+
 
 Next [Notifications](notifications.md)
 
