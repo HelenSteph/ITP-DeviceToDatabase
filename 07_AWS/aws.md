@@ -28,14 +28,14 @@ Under `Specify Template` choose `Upload a template file` as the template source.
 
 ![Cloud Formation - Create Stack](img/aws-cloudformation-create-stack.png)
 
-. Press the `Next button`.
-. Enter `itp` as the stack name and click `next`.
-. Skip the configure stack options, just click `next`. 
-. On the review page,make sure you check the `I acknowledge ...` box at the bottom of the page and click `Create Stack` button. 
+ * Press the `Next button`.
+ * Enter `itp` as the stack name and click `next`.
+ * Skip the configure stack options, just click `next`. 
+ * On the review page,make sure you check the `I acknowledge ...` box at the bottom of the page and click `Create Stack` button. 
 
 ![Cloud Formation - Create Stack Complete](img/aws-stack-complete.png)
 
-Once the template finishes running you will have a bunch of new AWS resources that we will use in during class.
+Once the template finishes running you will have a bunch of new AWS resources that we will use during class.
 
  * Core IoT Policies
  * DynamoDB Table
