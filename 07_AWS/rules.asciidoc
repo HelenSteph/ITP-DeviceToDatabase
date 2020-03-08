@@ -59,5 +59,6 @@ image::img/rule-dynamo-items.png[]
 
 image::img/rule-dynamo-edit.png[]
 
+Next <a href="./database.md">Database</a>
 Next ./database.md[Database]
 
