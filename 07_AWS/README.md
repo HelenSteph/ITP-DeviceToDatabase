@@ -1,6 +1,9 @@
- * [AWS IoT](aws.md)
+ * [AWS Core IoT](aws.md)
+ * [Rules](rules.md)
+ * [PostgreSQL](postgresql.md)
+ * [InfluxDB](influxdb.md)
  * [Notifications](notifications.md)
  * [Logging](logging.md)
- * [DynamoDB](dynamo.md)
+ * [Charts](charts.md)
 
 ![diagram showing system with Arduino and AWS Overview of system](img/aws.png)
