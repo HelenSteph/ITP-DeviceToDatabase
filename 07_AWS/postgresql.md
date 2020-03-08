@@ -76,9 +76,23 @@ Disconnect from psql using `\q`
 
 ## Lambda
 
-AWS Lambda allows us to run functions without worrying about a server. Open the Lambda dashboard using `Services -> Lambda`. You should see 2 functions. Click on `mqtt-to-postgres`. This function will receive an event from a IoT Core rule and save the data to PostgreSQL. The databaes connection options are stored as environment variables. Scroll down to the environment variables section. Click edit. Update the POSTGRESQL_HOSTNAME to your RDS database. Update the database, username, and password if necessary.
+AWS Lambda allows us to run functions without worrying about a server. 
 
-We can test the function to make sure it saves data to the database. Click `Select a test event` and choose `Configure test events`. Name the event TestData and past in the following JSON and click Create.
+ * Open the Lambda dashboard using `Services -> Lambda`. 
+ * You should see 2 functions. 
+ * Click on `mqtt-to-postgres`. 
+ 
+ This function will receive an event from a IoT Core rule and save the data to PostgreSQL. The database connection details are stored as environment variables. 
+ 
+ * Scroll down to the environment variables section. 
+ * Click edit. 
+ * Update the POSTGRESQL_HOSTNAME to your RDS database. 
+ * Update the database, username, and password if necessary.
+ * Click Save.
+
+ ## Testing
+
+We can test the function to make sure it saves data to the database. From the top right, click `Select a test event` and choose `Configure test events`. Name the event `TestData`. Paste the following JSON and click Create.
 
     {
     "device": "test",
@@ -89,11 +103,11 @@ We can test the function to make sure it saves data to the database. Click `Sele
 
 Push `Test`. Ensure that the function executes without any errors.
 
-Note that we're connecting directly to the database. The newer way to do this from a Lambda function is to use a [Database Proxy](https://aws.amazon.com/blogs/compute/using-amazon-rds-proxy-with-aws-lambda/).
+Note that we're connecting directly to the database from the Lambda function. The newer way to do this is to use a [Database Proxy](https://aws.amazon.com/blogs/compute/using-amazon-rds-proxy-with-aws-lambda/).
 
 ## Rules
 
-Now that the Lambda function works, we can have the IoT Core send data to it. 
+Now that the Lambda function works, we can have the IoT Core send data to the function. 
 
  * From the `Services` menu, choose `IoT Core`. 
  * Choose `Act -> Rules` from the menu on the left. 
@@ -111,7 +125,7 @@ Use psql to verify that data is being written to the sensor_data table.
 
 ## Extra
 
-Create another Lambda function that saves the sensor data to the environment table using the code below.
+Create another Lambda function that saves the sensor data to the `environment` table using the code below.
 
     import os
     import json
@@ -158,3 +172,6 @@ Create another Lambda function that saves the sensor data to the environment tab
     def lambda_handler(event, context):
     print(event) # log the event
     save_to_postgres(event)
+
+ Next [InfluxDB](influxdb.md) 
+   
