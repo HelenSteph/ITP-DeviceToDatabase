@@ -34,18 +34,17 @@ See the https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-reference.
 
 Press the `Add Action` button. Add an action to split the message into multiple columns in a DynamoDB table.
 
-.Rule action - split into multiple columns of DynamoDB table
+// .Rule action - split into multiple columns of DynamoDB table
 image::img/rule-action-split-dynamo-v2.png[]
-
 
 Choose the `environment` table, which was created by CloudFormation. Select the `iot-core-execution-role`. This role was created by CloudFormation. It includes permissions to write to DynamoDB stream.
 
 image::img/rule-action-dynamo.png[]
 
-Your rule should look like <<figure-create-rule>>. Be sure to scroll to the bottom and press the `Create Rule` button.
+Your rule should look similar to the screenshot below. Be sure to scroll to the bottom and press the `Create Rule` button.
 
-[[figure-create-rule]]
-.Create Rule
+//[[figure-create-rule]]
+//.Create Rule
 image::img/rule-query-action.png[]
 
 Once the new rule is in place, the DynamoDB table will start being populated. Use the AWS console to https://console.aws.amazon.com/dynamodb/home?region=us-east-1#tables:selected=environment;tab=items[view data in the environment table].
