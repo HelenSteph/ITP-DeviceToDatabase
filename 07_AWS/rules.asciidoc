@@ -5,11 +5,11 @@ We are now successfully sending data from the Arduino to AWS using MQTT. The MQT
 
 If necessary, use the `Services` menu to navigate to `IoT Core`. Click the `Act` menu on the left side and create a rule.
 
-image::images/rule-no-rules.png[]
+image::img/rule-no-rules.png[]
 
 Name the rule `environment`
 
-image::images/rule-create.png[]
+image::img/rule-create.png[]
 
 Add the rule query statement.
 
@@ -17,7 +17,7 @@ Add the rule query statement.
 SELECT topic(2) as device, timestamp() as timestamp, * FROM 'things/+/environment'
 ----
 
-image::images/rule-query.png[]
+image::img/rule-query.png[]
 
 // TODO is this a sidebar?
 
@@ -35,17 +35,17 @@ See the https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-reference.
 Press the `Add Action` button. Add an action to split the message into multiple columns in a DynamoDB table.
 
 .Rule action - split into multiple columns of DynamoDB table
-image::images/rule-action-split-dynamo-v2.png[]
+image::img/rule-action-split-dynamo-v2.png[]
 
 Choose the `environment` table, which was created by CloudFormation. Select the `iot-core-execution-role`. This role was created by CloudFormation. It includes permissions to write to DynamoDB and the Kinesis stream.
 
-image::images/rule-action-dynamo.png[]
+image::img/rule-action-dynamo.png[]
 
 Your rule should look like <<figure-create-rule>>. Be sure to scroll to the bottom and press the `Create Rule` button.
 
 [[figure-create-rule]]
 .Create Rule
-image::images/rule-query-action.png[]
+image::img/rule-query-action.png[]
 
 Once the new rule is in place, the DynamoDB table will start being populated. Use the AWS console to https://console.aws.amazon.com/dynamodb/home?region=us-east-1#tables:selected=environment;tab=items[view data in the environment table].
 
@@ -55,6 +55,6 @@ Once the new rule is in place, the DynamoDB table will start being populated. Us
 . Click the `items` tab to view the data
 . Click on a row to see more details
 
-image::images/rule-dynamo-items.png[]
+image::img/rule-dynamo-items.png[]
 
-image::images/rule-dynamo-edit.png[]
+image::img/rule-dynamo-edit.png[]
