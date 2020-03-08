@@ -81,85 +81,23 @@ Once you install the `awscli`, it needs to be configured with your Access Key ID
     Default region name [None]: us-east-1
     Default output format [None]: table
 
-## Policy
-
-AWS uses IoT policies to give things permission to access AWS IoT resources. Policies can be created using the [AWS IoT website](https://console.aws.amazon.com/iot/home?region=us-east-1#/policyhub), but it's rather cumbersome. We'll use a CloudFormation template to create the policy for us. Download [thing-policy.yaml](thing-policy.yaml). Open a terminal and run this aws command from the same directory as thing-policy.yml.
-
-    aws cloudformation create-stack --template-body file://thing-policy.yaml --stack-name thing-policy
-
-Open the [AWS IoT Core Policy screen](https://console.aws.amazon.com/iot/home?region=us-east-1#/policyhub) in your web browser. You should see the ThingPolicy that was created by AWS Cloud Formation.
-
-![Screenshot of AWS IoT Policy screen](img/cloudformation-thing-policy.png)
-
-This new policy ensures that when a device connects, the client id of the device matches the Common Name in the certificate. The policy also restricts the topics that a device can use. The device can only publish or subscribe to the topic that begin with `things/${clientId}/`. Clicking on the policy will show you details of the policy document. Your policy should look something like this, but with different arns.
-
-    {
-        "Version": "2012-10-17",
-        "Statement": [
-            {
-                "Effect": "Allow",
-                "Action": "iot:Connect",
-                "Resource": "arn:aws:iot:us-east-1:661516571298:client/${iot:Certificate.Subject.CommonName}"
-            },
-            {
-                "Effect": "Allow",
-                "Action": [
-                    "iot:Publish", 
-                    iot:Receive"
-                ],
-                "Resource": "arn:aws:iot:us-east-1:661516571298:topic/things/${iot:ClientId}/*"
-            },
-            {
-                "Effect": "Allow",
-                "Action": "iot:Subscribe",
-                "Resource": "arn:aws:iot:us-east-1:661516571298:topicfilter/things/${iot:ClientId}/*"
-            }
-        ]
-    }
-
-### Manually creating a policy
-
-This section is for information only, if you used Cloud Formation to create the policy, skip ahead to [the next section](#arduino).
-
-To manually create a policy, open the [AWS IoT Core](https://console.aws.amazon.com/iot/home?region=us-east-1) console in your web browser. 
-
-![Screenshot of AWS IoT console](img/aws-iot-console.png)
-
-AWS uses IoT policies to give things permission to access AWS IoT resources. Create a new policy. On the left menu, choose Secure -> Policies and press the `Create a Policy` button.
-
-![Screenshot of AWS IoT console showing the policy menu on the left](img/aws-iot-policy-menu.png)
-
-Enter `ThingPolicy` for the name and allow the following policy actions. Let the web page pre-populate the beginning of the ARN including the ACCOUNT_ID.
-
-    Action: iot:Connect 
-    Resource: arn:aws:iot:us-east-1:ACCOUNT_ID:client/${iot:Certificate.Subject.CommonName}
-
-    Action: iot:Publish, iot:Receive
-    Resource: arn:aws:iot:us-east-1:ACCOUNT_ID:topic/things/${iot:ClientId}/*
-
-    Action:iot:Subscribe
-    Resource: arn:aws:iot:us-east-1:ACCOUNT_ID:topicfilter/things/${iot:ClientId}/*
-
-![](img/aws-iot-thing-policy-1.png)
-![](img/aws-iot-thing-policy-2.png)
-
 ## Arduino
 
-In order to connect the Arduino to AWS IoT Core, our device needs a client certificate instead of a username and password. Use the ECCX08CSR.ino sketch from [week 2](https://github.com/don/ITP-DeviceToDatabase/tree/master/02_Arduino_MQTT) to generate a new private key and certificate signing request (CSR).
+In order to connect the Arduino to AWS IoT Core, our device needs to authenticate using a private key and client certificate instead of a username and password. Use the CreateCSR.ino sketch to generate a new private key and certificate signing request (CSR) on the device. The CSR is used to generate a certificate from AWS. Finally we'll use the key and certificate to connect and send data to AWS IoT.
 
-### Create CSR
+### Create Private Key and CSR
 
-Load [ECCX08CSR.ino](https://github.com/don/ITP-DeviceToDatabase/blob/master/02_Arduino_MQTT/arduino/ECCX08CSR/ECCX08CSR.ino) on your MRK 1000 or MRK WiFi 1010.
+Load the [GenerateCSR.ino](https://github.com/don/ITP-DeviceToDatabase/blob/master/02_Arduino_MQTT/arduino/GenerateCSR/GenerateCSR.ino) sketch on your MRK WiFi 1010.
 
-Open the Serial Monitor and generate a CSR. You can use all the default values. The common name is pre-populated with the serial number of the ECCX08. You can use this default or create your own name. Refer to the [week 2 instructions](https://github.com/don/ITP-DeviceToDatabase/blob/master/02_Arduino_MQTT/exercises/exercise7.md) if you need more details.
+Open the Serial Monitor and generate a CSR. Press the "Send" button or enter key to accept all the default valyes. The device name is pre-populated with the serial number from the ECCX08 chip. Refer to the [week 2 instructions](https://github.com/don/ITP-DeviceToDatabase/blob/master/02_Arduino/exercises/exercise7.md) if you need more details.
 
-![Screenshot of Arduino sketch generating CSR](../02_Arduino_MQTT/exercises/images/eccx08-csr.png)
+![Screenshot of Arduino sketch generating CSR](../02_Arduino/exercises/images/generate-csr.png)
 
-Copy the CSR from the serial monitor and save to a new text file named `csr.txt`. Save the device serial number since you'll need that in the next step.
+Copy the CSR from the serial monitor and save to a new text file named `csr.txt`. Leave the serial monitor open, since you'll need the device serial number in the next step.
 
 ## Create Thing
 
-Open AWS IoT console in your browser and choose `Manage -> Things` from the left side menu.
+Before we can connect the Arduino to AWS, we need to tell AWS about the device and generate a certificate. Log into the AWS Management console. Choose `IoT Core` from the Service Menu. In the AWS IoT console, choose `Manage -> Things` from the menu on the left.
 
 https://console.aws.amazon.com/iot/home?region=us-east-1#/thinghub
 
@@ -185,6 +123,40 @@ From the [Manage -> Things](https://console.aws.amazon.com/iot/home?region=us-ea
  * You will need to paste this certificate into config.h in the next step
 
 ![Screenshot of page for downloading the device certificate](img/aws-iot-download-certificate.png)
+
+## Policy
+
+AWS uses IoT policies to give things permission to access AWS IoT resources. Policies can be created using the AWS IoT website, but it's rather cumbersome. The CloudFormation template we ran before create a policy for us.
+
+Open the [AWS IoT Core Policy screen](https://console.aws.amazon.com/iot/home?region=us-east-1#/policyhub) in your web browser. You should see the ThingPolicy that was created by AWS Cloud Formation.
+
+![Screenshot of AWS IoT Policy screen](img/cloudformation-thing-policy.png)
+
+This new policy ensures that when a device connects, the client id of the device matches the Common Name in the certificate. The policy also restricts the topics that a device can use. The device can only publish or subscribe to the topic that begin with `things/${clientId}/`. Clicking on the policy will show you details of the policy document. Your policy should look something like this, but with different arns.
+
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": "iot:Connect",
+                "Resource": "arn:aws:iot:us-east-1:661516571298:client/${iot:Certificate.Subject.CommonName}"
+            },
+            {
+                "Effect": "Allow",
+                "Action": [
+                    "iot:Publish", 
+                    "iot:Receive"
+                ],
+                "Resource": "arn:aws:iot:us-east-1:661516571298:topic/things/${iot:ClientId}/*"
+            },
+            {
+                "Effect": "Allow",
+                "Action": "iot:Subscribe",
+                "Resource": "arn:aws:iot:us-east-1:661516571298:topicfilter/things/${iot:ClientId}/*"
+            }
+        ]
+    }
 
 ## AWS.ino
 
