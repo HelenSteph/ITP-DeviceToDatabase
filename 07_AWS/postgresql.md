@@ -85,20 +85,18 @@ AWS Lambda allows us to run functions without worrying about a server.
  This function will receive an event from a IoT Core rule and save the data to PostgreSQL. The database connection details are stored as environment variables. 
  
  * Scroll down to the environment variables section. 
- * Click edit. 
- * Update the POSTGRESQL_HOSTNAME to your RDS database. 
- * Update the database, username, and password if necessary.
- * Click Save.
-
+ * CloudFormation populated the POSTGRESQL_HOSTNAME with the RDS database
+ * Edit the database, username, and password if necessary.
+ 
  ## Testing
 
 We can test the function to make sure it saves data to the database. From the top right, click `Select a test event` and choose `Configure test events`. Name the event `TestData`. Paste the following JSON and click Create.
 
     {
-    "device": "test",
-    "temperature": 72,
-    "humidity": 42,
-    "timestamp": 0
+        "device": "test",
+        "temperature": 72,
+        "humidity": 42,
+        "timestamp": 0
     }
 
 Push `Test`. Ensure that the function executes without any errors.
@@ -114,14 +112,19 @@ Now that the Lambda function works, we can have the IoT Core send data to the fu
  * Select the `environment` rule. 
  * Use the `Add action` button to add a new action. 
  * Choose `Send a message to a Lambda function`.
+ * Press `Configure Action` at the bottom of the page.
  * Select `mqtt-to-postgresql`.
+ * Press `Add action`.
+
+![](img/rule-postgresql-lambda.png)
 
 Use psql to verify that data is being written to the sensor_data table.
 
     psql -h itp.c2mv7aahxpyd.us-east-1.rds.amazonaws.com -U sensors itp
 
-    select count(*) from sensor_data;
-    \q
+    SELECT * FROM sensor_data LIMIT 10;
+
+![](img/postgresql-check-data.png)
 
 ## Extra
 
